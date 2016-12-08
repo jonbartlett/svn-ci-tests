@@ -1,22 +1,18 @@
 require 'find'
 require 'spec_helper'
+require 'nokogiri'
 
-#  puts %x("echo $PATH")
-#
-#
 RSpec.describe Svn do
 
   Find.find('/home/vagrant/svn/EDW/tags/CR/CR19321') do |item|
 
     describe "svn object #{item}"
 
-      it "#{item} should have svn properties set" do
+      svnfile = Svn.new
 
-        svnfile = Svn.new
-        output = svnfile.proplist(item)
-        expect(output.include?('svn:keywords')).to equal(true)
-
-    end
+      it "#{item} should have svn:keywords properties set (author: #{svnfile.last_changed_author(item)})" do
+        expect(svnfile.prop_keywords(item)).to equal(true)
+      end
 
   end
 
