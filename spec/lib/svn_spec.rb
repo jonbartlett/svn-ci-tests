@@ -4,15 +4,19 @@ require 'nokogiri'
 
 RSpec.describe Svn do
 
-  Find.find('/home/vagrant/svn/EDW/tags/CR/CR19321') do |item|
+  Find.find('/var/lib/jenkins/workspace/svn') do |item|
 
-    describe "svn object #{item}"
+    if !item.include?(".svn")
 
-      svnfile = Svn.new
+      describe "svn object #{item}"
 
-      it "#{item} should have svn:keywords properties set (author: #{svnfile.last_changed_author(item)})" do
-        expect(svnfile.prop_keywords(item)).to equal(true)
-      end
+        svnfile = Svn.new
+
+        it "#{item} should have svn:keywords properties set (author: #{svnfile.last_changed_author(item)})" do
+          expect(svnfile.prop_keywords(item)).to equal(true)
+        end
+
+    end
 
   end
 
