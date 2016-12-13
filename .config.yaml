@@ -1,0 +1,6 @@
+# svn
+svn:
+ host: svn://hostname
+ user: svn_user
+ password: svn_password
+
