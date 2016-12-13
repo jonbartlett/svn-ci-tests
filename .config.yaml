@@ -3,4 +3,6 @@ svn:
  host: svn://hostname
  user: svn_user
  password: svn_password
+ branch_url: svn://hostname/trunk
+ tag_url: svn://hostname/tags/CR12345
 
