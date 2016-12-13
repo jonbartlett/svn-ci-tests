@@ -1,13 +1,15 @@
 require 'find'
 require 'spec_helper'
 require 'nokogiri'
+require 'yaml'
 
 RSpec.describe Svn do
 
   svnfile = Svn.new
+  config = YAML.load_file('.config.yaml')
 
-  # For each file in svn working copy
-  Find.find('/var/lib/jenkins/workspace/SVN-CR19321') do |item|
+  # For each file in svn working copy check keywords - perhaps change this to look at remote repo?
+  Find.find(ENV['WORKSPACE']) do |item|
 
     if !item.include?(".svn") && !item.include?("svn-ci-tests") && File.file?(item)
 
@@ -21,16 +23,15 @@ RSpec.describe Svn do
 
   end
 
-  # Diff branch and tag
-  diff_doc = svnfile.diff('svn://djwp07/EDW/branches/development','svn://djwp07/EDW/tags/CR/CR19321')
-
   # Files that exist in tag but not branch
+  diff_doc = svnfile.diff("#{config["svn"]["branch_url"]}","#{config["svn"]["tag_url"]}")
+
   diff_doc.xpath("//diff/paths/path[contains(@kind,'file') and (contains(@item,'added'))]").each do | item|
 
     describe "svn diff #{item.content}"
 
     it "#{item.content} is in tag but not branch" do
-    
+
       expect(false).to equal(true)
 
     end
@@ -43,7 +44,7 @@ RSpec.describe Svn do
     describe "svn diff #{item.content}"
 
     it "#{item.content} is different in tag and branch" do
-    
+
       expect(false).to equal(true)
 
     end
