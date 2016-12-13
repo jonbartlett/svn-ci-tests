@@ -1,5 +1,6 @@
 # svn
 svn:
+ executable_path: /usr/bin/svn
  host: svn://hostname
  user: svn_user
  password: svn_password
