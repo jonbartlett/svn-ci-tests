@@ -29,5 +29,15 @@ class Svn
 
   end
 
+  def info(item)
+    `/usr/bin/svn info #{item}`
+  end
+
+  def diff(branch, tag)
+
+    Nokogiri::XML(`/usr/bin/svn diff --xml --summarize --new=#{tag}@HEAD --old=#{branch}@HEAD`)
+
+  end
+
 end
 
