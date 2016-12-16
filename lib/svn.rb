@@ -13,11 +13,7 @@ class Svn
 
     doc = Nokogiri::XML(`#{@config["svn"]["executable_path"]} --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} --xml proplist #{item}`)
 
-    if doc.xpath("//property[contains(@name,'svn:keywords')]").count > 0
-      true
-    else
-      false
-    end
+    !doc.xpath("//property[contains(@name,'svn:keywords')]").count.zero?
 
   end
 
@@ -29,20 +25,13 @@ class Svn
 
   def info(item)
 
-    `/usr/bin/svn info #{item}`
+    `#{@config["svn"]["executable_path"]} info #{item}`
 
   end
 
   def last_changed_author(item)
 
-    doc = Nokogiri::XML(`#{@config["svn"]["executable_path"]} --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} --xml info #{item}`)
-    doc.xpath("//author").text
-
-  end
-
-  def info(item)
-
-    `/usr/bin/svn info #{item}`
+    Nokogiri::XML(`#{@config["svn"]["executable_path"]} --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} --xml info #{item}`).xpath("//author").text
 
   end
 
