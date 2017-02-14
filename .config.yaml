@@ -5,5 +5,14 @@ svn:
  user: svn_user
  password: svn_password
  branch_url: svn://hostname/trunk
- tag_url: svn://hostname/tags/CR12345
+ keywords_files:
+ - '.ksh'
+ - '.sh'
+ - '.ddl'
+ - '.sql'
+ - '.pls'
+ - '.pks'
+ - '.pkb'
+ - '.java'
+
 
