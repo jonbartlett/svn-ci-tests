@@ -2,7 +2,6 @@ require 'find'
 require 'spec_helper'
 require 'nokogiri'
 require 'yaml'
-require 'pry'
 
 RSpec.describe Svn do
 
@@ -11,7 +10,6 @@ RSpec.describe Svn do
 
   # For each file in svn working copy check keywords - perhaps change this to look at remote repo?
   Find.find(ENV['WORKSPACE']) do |item|
-# binding.pry
 
     if !item.include?(".svn") &&
        !item.include?("svn-ci-tests") &&
@@ -50,12 +48,10 @@ RSpec.describe Svn do
 
     it "#{item.content} is different in tag and branch" do
 
-      expect(false).to equal(true)
+     expect(false).to equal(true), svnfile.pretty_diff(item.content, item.content.gsub("#{config["svn"]["branch_url"]}","#{ENV['SVN_URL']}"))
 
     end
 
   end
-
-
 
 end

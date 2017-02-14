@@ -41,5 +41,11 @@ class Svn
 
   end
 
+  def pretty_diff(branch_file, tag_file)
+
+    `#{@config["svn"]["executable_path"]} diff --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} --new=#{tag_file}@HEAD --old=#{branch_file}@HEAD`
+
+  end
+
 end
 
