@@ -7,4 +7,5 @@ gem 'nokogiri'
 
 group :development do
   gem 'guard-rspec', require: false
+  gem 'pry'
 end

@@ -2,6 +2,7 @@ require 'find'
 require 'spec_helper'
 require 'nokogiri'
 require 'yaml'
+require 'pry'
 
 RSpec.describe Svn do
 
@@ -10,21 +11,25 @@ RSpec.describe Svn do
 
   # For each file in svn working copy check keywords - perhaps change this to look at remote repo?
   Find.find(ENV['WORKSPACE']) do |item|
+# binding.pry
 
-    if !item.include?(".svn") && !item.include?("svn-ci-tests") && File.file?(item)
+    if !item.include?(".svn") &&
+       !item.include?("svn-ci-tests") &&
+       File.file?(item) &&
+       config["svn"]["keywords_files"].any? { |word| item.include?(word) }
 
       describe "svn object #{item}"
 
-        it "#{item} should have svn:keywords properties set (author: #{svnfile.last_changed_author(item)})" do
+      it "#{item} should have svn:keywords properties set (author: #{svnfile.last_changed_author(item)})" do
           expect(svnfile.prop_keywords(item)).to equal(true)
-        end
+      end
 
     end
 
   end
 
   # Files that exist in tag but not branch
-  diff_doc = svnfile.diff("#{config["svn"]["branch_url"]}","#{config["svn"]["tag_url"]}")
+  diff_doc = svnfile.diff("#{config["svn"]["branch_url"]}","#{ENV['SVN_URL']}")
 
   diff_doc.xpath("//diff/paths/path[contains(@kind,'file') and (contains(@item,'added'))]").each do | item|
 

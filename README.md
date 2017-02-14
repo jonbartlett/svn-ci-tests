@@ -1,5 +1,5 @@
 # svn-ci-tests
-Health check for SVN repositories.
+Health check for Sub Version repositories.
 
 Designed to be used with a CI tool such as Jenkins.
 
@@ -23,6 +23,7 @@ Future checks:
 ```
 gem install bundler
 bundle install
+rake
 ```
 
 - in Jenkins (or other CI tool) execute build shell:
@@ -39,6 +40,7 @@ rake
 
 # Requires
 
-- ```environment variable ```$WORKSPACE``` pointed to svn working copy (this is already set when using Jenkins.
-- svn
+- environment variable ```$WORKSPACE``` pointed to svn working copy (this is already set when using Jenkins
+- environment variable ```$SVN_URL``` set to "tag" folder url (this is already set when using Jenkins and svn integration)
+- svn installed
 
