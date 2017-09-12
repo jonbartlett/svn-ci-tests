@@ -47,5 +47,11 @@ class Svn
 
   end
 
+  def list(path)
+
+    Nokogiri::XML(`#{@config["svn"]["executable_path"]} list --xml -R --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} #{path}`)
+
+  end
+
 end
 
