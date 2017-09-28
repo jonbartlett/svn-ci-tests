@@ -1,18 +1,25 @@
-# svn
+---
 svn:
- executable_path: /usr/bin/svn
- host: svn://hostname
- user: svn_user
- password: svn_password
- branch_url: svn://hostname/trunk
- keywords_files:
- - '.ksh'
- - '.sh'
- - '.ddl'
- - '.sql'
- - '.pls'
- - '.pks'
- - '.pkb'
- - '.java'
-
-
+  executable_path: "/usr/bin/svn"
+  host:
+  user:
+  password:
+clash_check:
+  last_run_revision:
+  project_url:
+  non_project_url:
+diff_check:
+  source_url:
+  branched_url:
+keyword_check:
+  run_remote: true
+  svn_url:
+  files:
+  - ".ksh"
+  - ".sh"
+  - ".ddl"
+  - ".sql"
+  - ".pls"
+  - ".pks"
+  - ".pkb"
+  - ".java"
