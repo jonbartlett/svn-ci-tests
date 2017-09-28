@@ -159,7 +159,7 @@ rake
 - in Jenkins (or other CI tool) execute build shell:
 
 ```
-cd $WORKSPACE/svn-ci-tests
+cd $WORKSPACE/svn-ci-tests # assuming git repo is here
 gem install bundler
 svn upgrade $WORKSPACE
 bundle install
@@ -170,7 +170,5 @@ rake
 
 # Requirements
 
-- environment variable ```$WORKSPACE``` pointed to svn working copy (this is already set when using Jenkins
-- environment variable ```$SVN_URL``` set to "tag" folder url (this is already set when using Jenkins and svn integration)
 - svn installed
 
