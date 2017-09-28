@@ -3,9 +3,9 @@ require 'yaml'
 
 class Svn
 
-  def initialize
+  def initialize(config_file)
 
-   @config = YAML.load_file('.config.yaml')
+   @config = config_file
 
   end
 
@@ -25,7 +25,7 @@ class Svn
 
   def info(item)
 
-    `#{@config["svn"]["executable_path"]} info #{item}`
+    Nokogiri::XML(`#{@config["svn"]["executable_path"]} --xml info #{item}`)
 
   end
 
@@ -35,9 +35,9 @@ class Svn
 
   end
 
-  def diff(branch, tag)
+  def diff(old, new)
 
-    Nokogiri::XML(`#{@config["svn"]["executable_path"]} diff --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} --xml --summarize --new=#{tag}@HEAD --old=#{branch}@HEAD`)
+    Nokogiri::XML(`#{@config["svn"]["executable_path"]} diff --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} --xml --summarize --new=#{new} --old=#{old}`)
 
   end
 
@@ -54,4 +54,3 @@ class Svn
   end
 
 end
-
