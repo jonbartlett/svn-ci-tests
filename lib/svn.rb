@@ -25,7 +25,7 @@ class Svn
 
   def info(item)
 
-    Nokogiri::XML(`#{@config["svn"]["executable_path"]} --xml info #{item}`)
+    Nokogiri::XML(`#{@config["svn"]["executable_path"]} --xml --username #{@config["svn"]["user"]} --password #{@config["svn"]["password"]} info #{item}`)
 
   end
 
