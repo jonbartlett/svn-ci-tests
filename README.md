@@ -99,7 +99,7 @@ Environment variables:
 ```
 keyword_check:
   run_remote: true
-  svn_url: svn://djwp07/EDW/tags/CR/CR20370
+  svn_url: svn://d07/EDW/tags/CR/CR20370
   files:
   - ".ksh"
   - ".sh"
@@ -116,6 +116,8 @@ keyword_check:
 Two projects were running concurrently and potentially modifiy the same objects in different SVN branches. This test highlights where changes are made to objects in one branch that also exist in a specified other branch. Also used to highlight changes to production branches made by other projects or production support.
 
 Designed to be run from Jenkins which monitors the non-project branch. Only files changed since the last test run are identified.
+
+Now writes to a CSV file when ```write_csv: true``` property set. This can be emailed via Jenkins 'Editable Email Notification' functionality.
 
 Implemented in:
 
@@ -136,8 +138,9 @@ Environment variables:
 
 ```
 clash_check:
-  project_url: svn://dwp07/EDW/branches/project
-  non_project_url: svn://dwp07/EDW/branches/dev_jbartlett/non_project
+  project_url: svn://d07/EDW/branches/stellar
+  non_project_url: svn://d07/EDW/branches/dev_jbartlett/CR20370
+  write_csv: true
 ```
 
 ## Usage

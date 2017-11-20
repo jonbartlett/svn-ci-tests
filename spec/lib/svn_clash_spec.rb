@@ -3,6 +3,7 @@ require 'spec_helper'
 require 'nokogiri'
 require 'yaml'
 require 'pry'
+require 'csv'
 
 RSpec.describe Svn do
 
@@ -16,6 +17,10 @@ RSpec.describe Svn do
 
   non_project_url = ENV['CLASH_NON_PROJECT_URL']
   non_project_url = "#{config["clash_check"]["non_project_url"]}" if non_project_url.to_s.empty?
+
+  write_csv = false
+  write_csv = true if config["clash_check"]["write_csv"]
+  csv_rows = Array.new
 
   # get current non-project url revision number
   info_doc = svnfile.info("#{non_project_url}")
@@ -37,9 +42,15 @@ RSpec.describe Svn do
     # if file exists in Project branch, raise a test failure for notification in Jenkins
     describe "svn Clash Check #{item.content}"
 
-    it "#{item.content} has been modifed in branch #{non_project_url} and is present in branch #{project_url}" do
+    clash_count = project_doc.xpath("//lists/list/entry[contains(name,'#{item_file}')]").count
 
-      expect(project_doc.xpath("//lists/list/entry[contains(name,'#{item_file}')]").count).to eq(0)
+    if (clash_count != 0 && write_csv)
+      csv_rows << item.content
+    end
+
+    it "#{item.content} has been modifed in branch #{non_project_url} and is present in #{project_url}" do
+
+      expect(clash_count).to eq(0)
 
     end
 
@@ -62,5 +73,20 @@ RSpec.describe Svn do
 
   end
 
+  # write csv output
+  if write_csv && !ENV['CI_REPORTS'].to_s.empty? && csv_rows.count > 0
+
+    CSV.open("#{ENV['CI_REPORTS']}/report.csv", "w") do |csv|
+      csv << ["Files modified in:", non_project_url]
+      csv << ["Exist in Project Branch:", project_url]
+      csv << ["Modified Object","Modified Branch Author","Modified Date","Modified Revision","Project Branch Author"]
+
+      csv_rows.each { |x|
+        doc = svnfile.info(x)
+        csv << [x, doc.xpath("//commit/author").text, doc.xpath("//commit/date").text, doc.xpath("//commit/@revision").text, svnfile.last_changed_author(x.sub(non_project_url,project_url))]
+      }
+    end
+
+  end
 
 end
