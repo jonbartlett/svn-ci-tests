@@ -143,6 +143,34 @@ clash_check:
   write_csv: true
 ```
 
+### 5: Monitor all changes to a branch
+
+This is a simple test that returns all changes to a branch between test runs. Changes show up as test failures that can be processed by Jenkins or other CI tool. Handy for monitoring production / trunk branches to highlight re-integration work into a project branch. Essentially this is just a fancy reporting wrapper around ```svn diff```.
+
+Writes to a CSV file when ```write_csv: true``` property set. This can be emailed via Jenkins 'Editable Email Notification' functionality.
+
+Implemented in:
+
+```spec/lib/svn_monitor_spec.rb```
+
+Usage:
+
+Set monitor svn URLs as either environment variables or in the ```.config``` file (the former takes precedence).
+
+Environment variables:
+
+```
+  export MONITOR_URL = svn://dwp07/EDW/trunk
+```
+
+.config:
+
+```
+monitor:
+  monitor_url: svn://djwp07/EDW/trunk
+  write_csv: true
+```
+
 ## Usage
 
 - clone this repo
@@ -164,8 +192,11 @@ rake
 ```
 cd $WORKSPACE/svn-ci-tests # assuming git repo is here
 gem install bundler
-svn upgrade $WORKSPACE
 bundle install
+# set CI_REPORTS env used by RSpec CI Reporter (https://github.com/ci-reporter/ci_reporter)
+export CI_REPORTS="$WORKSPACE/.test/reports"
+# create .test directory if not already exists
+mkdir -p $CI_REPORTS
 rake
 ```
 
