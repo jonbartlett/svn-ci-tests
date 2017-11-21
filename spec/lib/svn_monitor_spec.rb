@@ -79,6 +79,5 @@ RSpec.describe Svn do
 
   end
 
-
 end
 
