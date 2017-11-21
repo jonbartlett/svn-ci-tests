@@ -4,13 +4,19 @@ svn:
   host:
   user:
   password:
+  last_run_revision:
 clash_check:
   last_run_revision:
   project_url:
   non_project_url:
+  write_csv: true
 diff_check:
   source_url:
   branched_url:
+monitor:
+  last_run_revision:
+  monitor_url:
+  write_csv: true
 keyword_check:
   run_remote: true
   svn_url:
