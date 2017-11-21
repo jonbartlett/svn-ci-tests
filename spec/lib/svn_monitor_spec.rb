@@ -70,6 +70,8 @@ RSpec.describe Svn do
 
     CSV.open("#{ENV['CI_REPORTS']}/report.csv", "w") do |csv|
       csv << ["Files modified in:", monitor_url]
+      csv << ["From revision:", "r#{last_run_revision}"]
+      csv << ["To revision:", "r#{current_rev}"]
       csv << ["Object","Action"]
 
       csv_rows.each { |x|
