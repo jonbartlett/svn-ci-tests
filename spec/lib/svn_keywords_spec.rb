@@ -2,6 +2,7 @@ require 'find'
 require 'spec_helper'
 require 'nokogiri'
 require 'yaml'
+require 'pry'
 
 RSpec.describe Svn do
 
@@ -20,10 +21,14 @@ RSpec.describe Svn do
 
     tag_doc.xpath("//lists/list/entry[contains(@kind,'file')]/name").each do | item|
 
-      describe "svn object #{item.text}"
+      if config["keyword_check"]["files"].any? { |word| item.text.include?(word) }
 
-      it "#{item.text} should have svn:keywords properties set" do
-        expect(svnfile.prop_keywords("#{svn_path}/#{item.text}")).to equal(true)
+        describe "svn object #{item.text}"
+
+        it "#{item.text} should have svn:keywords properties set" do
+          expect(svnfile.prop_keywords("#{svn_path}/#{item.text}")).to equal(true)
+        end
+
       end
 
     end
@@ -36,7 +41,7 @@ RSpec.describe Svn do
       if !item.include?(".svn") &&
          !item.include?("svn-ci-tests") &&
          File.file?(item) &&
-         config["svn"]["keywords_files"].any? { |word| item.include?(word) }
+         config["keyword_check"]["files"].any? { |word| item.include?(word) }
 
         describe "svn object #{item}"
 
