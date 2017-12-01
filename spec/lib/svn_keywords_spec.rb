@@ -2,7 +2,6 @@ require 'find'
 require 'spec_helper'
 require 'nokogiri'
 require 'yaml'
-require 'pry'
 
 RSpec.describe Svn do
 
