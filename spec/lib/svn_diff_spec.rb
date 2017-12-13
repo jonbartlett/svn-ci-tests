@@ -2,7 +2,6 @@ require 'find'
 require 'spec_helper'
 require 'nokogiri'
 require 'yaml'
-require 'pry'
 
 RSpec.describe Svn do
 
@@ -16,13 +15,13 @@ RSpec.describe Svn do
   branched_url = "#{config["diff_check"]["branched_url"]}" if branched_url.to_s.empty?
 
   # Test 2: Files that exist in tag but not branch - this should never happen
-  diff_doc = svnfile.diff(branched_url,source_url)
+  diff_doc = svnfile.diff(source_url,branched_url)
 
   diff_doc.xpath("//diff/paths/path[contains(@kind,'file') and (contains(@item,'added'))]").each do | item|
 
     describe "svn diff #{item.content}"
 
-    it "#{item.content} is in tag but not branch" do
+    it "#{item.content} is in branched url (tag) but not source url (branch)" do
 
       expect(false).to equal(true)
 
@@ -35,9 +34,9 @@ RSpec.describe Svn do
 
     describe "svn diff #{item.content}"
 
-    it "#{item.content} is different in source and branch" do
+    it "#{item.content} is different in source url (branch) and branched url (tag)" do
 
-     expect(false).to equal(true), svnfile.pretty_diff(item.content, item.content.gsub(branched_url,source_url))
+     expect(false).to equal(true), svnfile.pretty_diff(item.content, item.content.gsub(source_url,branched_url))
 
     end
 
