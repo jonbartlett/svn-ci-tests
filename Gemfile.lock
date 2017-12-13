@@ -8,7 +8,6 @@ GEM
       ci_reporter (~> 2.0)
       rspec (>= 2.14, < 4)
     coderay (1.1.1)
-    csv (0.1.0)
     diff-lcs (1.2.5)
     ffi (1.9.14)
     formatador (0.2.5)
@@ -70,7 +69,6 @@ PLATFORMS
 
 DEPENDENCIES
   ci_reporter_rspec
-  csv
   guard-rspec
   nokogiri
   pry
