@@ -1,7 +1,6 @@
 require 'spec_helper'
-require 'pry'
-require 'csv'
 require 'yaml'
+require 'csv'
 
 RSpec.describe Svn do
 
